@@ -1018,11 +1018,29 @@ Present = Struct.new("Present", :length, :width, :height) do
   def required_paper
     surface_area + area_of_smallest_surface
   end
+
+  def perimeters
+    [length+width, width+height, length+height].map { |p| p*2 }
+  end
+
+  def smallest_perimeter
+    perimeters.min
+  end
+
+  def volume
+    length*width*height
+  end
+
+  def required_ribbon
+    smallest_perimeter + volume
+  end
 end
 
 
 presents = data.map { |str| Present.new(*str.split('x').map { |s| s.to_i }) }
 
 required_paper = presents.map { |p| p.required_paper }.inject(:+)
+required_ribbon = presents.map { |p| p.required_ribbon }.inject(:+)
 
 puts "#{required_paper} feet of paper"
+puts "#{required_ribbon} feet of ribbon"
