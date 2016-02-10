@@ -1,10 +1,11 @@
 require 'digest'
 
 class AdventCoinGenerator
-  attr_reader :seed_data
+  attr_reader :seed_data, :prefix
 
-  def initialize(seed_data)
+  def initialize(seed_data, prefix: '00000')
     @seed_data = seed_data
+    @prefix = prefix
   end
 
   def find_next_coin
@@ -12,7 +13,7 @@ class AdventCoinGenerator
     begin
       input += 1
       result = digest(input)
-    end until result.start_with?('00000')
+    end until result.start_with?(prefix)
     input
   end
 
